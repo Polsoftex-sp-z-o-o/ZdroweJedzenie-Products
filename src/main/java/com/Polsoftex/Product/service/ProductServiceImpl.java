@@ -4,10 +4,12 @@ import com.Polsoftex.Product.models.Product;
 import com.Polsoftex.Product.models.dto.ProductDto;
 import com.Polsoftex.Product.repositiories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -18,35 +20,71 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getAllProducts()
     {
-        //TODO Implement getAllProduct
-        return new ArrayList<>();
+        return productRepository.findAll();
     }
 
     @Override
-    public Product getProcduct(long id)
+    public Optional<Product> getProduct(long id)
     {
-        //TODO Implement getting single product
-        return new Product();
+        return productRepository.findById(id);
     }
 
     @Override
     public Boolean createProduct(ProductDto productDto)
     {
-        //TODO Implement adding new product
+        try {
+            Product product = new Product();
+            product.setDescription(productDto.getDescription());
+            product.setName(productDto.getName());
+            product.setPrice(product.getPrice());
+            product.setQuantity(productDto.getQuantity());
+
+            productRepository.save(product);
+        }
+        catch (DataIntegrityViolationException exception)
+        {
+            return false;
+        }
+
         return true;
     }
 
     @Override
     public Boolean modifyProduct(ProductDto productDto, long id)
     {
-        //TODO Implement product edition
+        Optional<Product> optionalProduct = productRepository.findById(id);
+
+        if(!optionalProduct.isPresent()) return false;
+
+        Product product = optionalProduct.get();
+        product.setDescription(productDto.getDescription());
+        product.setName(productDto.getName());
+        product.setPrice(product.getPrice());
+        product.setQuantity(productDto.getQuantity());
+
+        try
+        {
+            productRepository.save(product);
+        }
+        catch (DataIntegrityViolationException exception)
+        {
+            return  false;
+        }
+
         return true;
     }
 
     @Override
     public Boolean deleteProduct(long id)
     {
-        //TODO Implement product deletion
+        try
+        {
+            productRepository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException exception)
+        {
+            return false;
+        }
         return true;
     }
 }

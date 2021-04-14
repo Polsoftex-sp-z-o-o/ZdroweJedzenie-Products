@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -24,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getProduct(long id)
+    public Optional<Product> getProduct(UUID id)
     {
         return productRepository.findById(id);
     }
@@ -50,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean modifyProduct(ProductDto productDto, long id)
+    public Boolean modifyProduct(ProductDto productDto, UUID id)
     {
         Optional<Product> optionalProduct = productRepository.findById(id);
 
@@ -75,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean deleteProduct(long id)
+    public Boolean deleteProduct(UUID id)
     {
         try
         {

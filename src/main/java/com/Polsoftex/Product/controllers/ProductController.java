@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.UUID;
 
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Object> getProduct(@PathVariable long id)
+    public ResponseEntity<Object> getProduct(@PathVariable UUID id)
     {
         Optional<Product> product = productService.getProduct(id);
 
@@ -38,7 +39,7 @@ public class ProductController {
 
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<String> modifyProduct(@RequestBody ProductDto productDto, @PathVariable long id)
+    public ResponseEntity<String> modifyProduct(@RequestBody ProductDto productDto, @PathVariable UUID id)
     {
         if(productService.modifyProduct(productDto, id))
         {
@@ -59,7 +60,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable long id)
+    public ResponseEntity<String> deleteProduct(@PathVariable UUID id)
     {
         if(productService.deleteProduct(id))
         {

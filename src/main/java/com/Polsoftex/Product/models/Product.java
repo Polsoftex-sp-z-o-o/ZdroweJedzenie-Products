@@ -1,15 +1,19 @@
 package com.Polsoftex.Product.models;
 
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue()
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    private UUID id;
 
     @Column
     private String name;
@@ -23,8 +27,8 @@ public class Product {
     @Column
     private BigDecimal price;
 
-    public Long getId(){ return id; }
-    public void setId(Long id){ this.id = id; }
+    public UUID getId(){ return id; }
+    public void setId(UUID id){ this.id = id; }
 
     public String getName(){ return name; }
     public void setName(String name){ this.name = name; }

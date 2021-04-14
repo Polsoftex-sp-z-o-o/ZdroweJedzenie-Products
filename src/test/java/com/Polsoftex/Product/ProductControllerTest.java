@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.UUID;
 
 @WebMvcTest(ProductController.class)
 public class ProductControllerTest {
@@ -76,9 +77,9 @@ public class ProductControllerTest {
         product.setPrice(new BigDecimal(0.69));
         product.setQuantity(100);
 
-        when(productService.getProduct(any(long.class))).thenReturn(Optional.of(product));
+        when(productService.getProduct(any(UUID.class))).thenReturn(Optional.of(product));
 
-        mockMvc.perform(get("/products/1")
+        mockMvc.perform(get("/products/123e4567-e89b-42d3-a456-556642440000")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description").value(product.getDescription()))
@@ -92,9 +93,9 @@ public class ProductControllerTest {
     public void getProductFailTest() throws Exception
     {
 
-        when(productService.getProduct(any(long.class))).thenReturn(Optional.empty());
+        when(productService.getProduct(any(UUID.class))).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/products/1")
+        mockMvc.perform(get("/products/123e4567-e89b-42d3-a456-556642440000")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
@@ -131,9 +132,9 @@ public class ProductControllerTest {
     @Test
     public void modifyProductFailedTest() throws Exception
     {
-        when(productService.modifyProduct(any(ProductDto.class), any(long.class))).thenReturn(false);
+        when(productService.modifyProduct(any(ProductDto.class), any(UUID.class))).thenReturn(false);
 
-        mockMvc.perform(put("/products/1")
+        mockMvc.perform(put("/products/123e4567-e89b-42d3-a456-556642440000")
                 .contentType(APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(new ProductDto())))
                 .andExpect(status().isNotFound())
@@ -144,9 +145,9 @@ public class ProductControllerTest {
     @Test
     public void modifyProductSuccessTest() throws Exception
     {
-        when(productService.modifyProduct(any(ProductDto.class), any(long.class))).thenReturn(true);
+        when(productService.modifyProduct(any(ProductDto.class), any(UUID.class))).thenReturn(true);
 
-        mockMvc.perform(put("/products/1")
+        mockMvc.perform(put("/products/123e4567-e89b-42d3-a456-556642440000")
                 .contentType(APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(new ProductDto())))
                 .andExpect(status().isOk())
@@ -157,9 +158,9 @@ public class ProductControllerTest {
     @Test
     public void deleteProductFailedTest() throws Exception
     {
-        when(productService.deleteProduct(any(long.class))).thenReturn(false);
+        when(productService.deleteProduct(any(UUID.class))).thenReturn(false);
 
-        mockMvc.perform(delete("/products/1")
+        mockMvc.perform(delete("/products/123e4567-e89b-42d3-a456-556642440000")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Product deletion failed"));
@@ -169,9 +170,9 @@ public class ProductControllerTest {
     @Test
     public void deleteProductSuccessTest() throws Exception
     {
-        when(productService.deleteProduct(any(long.class))).thenReturn(true);
+        when(productService.deleteProduct(any(UUID.class))).thenReturn(true);
 
-        mockMvc.perform(delete("/products/1")
+        mockMvc.perform(delete("/products/123e4567-e89b-42d3-a456-556642440000")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Product deleted successfully"));

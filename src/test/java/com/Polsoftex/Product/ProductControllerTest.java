@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.List;
 
 @WebMvcTest(ProductController.class)
 public class ProductControllerTest {
@@ -67,6 +68,41 @@ public class ProductControllerTest {
 
     }
 
+    @Test
+    public void getSelectedProductsTest() throws Exception
+    {
+        Product firstProduct = new Product();
+        firstProduct.setDescription("First product description");
+        firstProduct.setName("Apple");
+        firstProduct.setCategory("Fruit");
+        firstProduct.setPrice(new BigDecimal(0.69));
+        firstProduct.setQuantity(100);
+
+        Product secondProduct = new Product();
+        secondProduct.setDescription("Second product description");
+        secondProduct.setName("Tomato");
+        secondProduct.setCategory("Vegetable");
+        secondProduct.setPrice(new BigDecimal(12.34));
+        secondProduct.setQuantity(120);
+
+        when(productService.getSelectedProducts(any(List.class))).thenReturn(Arrays.asList(firstProduct, secondProduct));
+
+        mockMvc.perform(get("/products/ids?ids=123e4567-e89b-42d3-a456-556642440000,123e4567-e89b-42d3-a456-5566424421332")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].description").value(firstProduct.getDescription()))
+                .andExpect(jsonPath("$[0].name").value(firstProduct.getName()))
+                .andExpect(jsonPath("$[0].price").value(firstProduct.getPrice()))
+                .andExpect(jsonPath("$[0].category").value(firstProduct.getCategory()))
+                .andExpect(jsonPath("$[0].quantity").value(firstProduct.getQuantity()))
+                .andExpect(jsonPath("$[1].description").value(secondProduct.getDescription()))
+                .andExpect(jsonPath("$[1].name").value(secondProduct.getName()))
+                .andExpect(jsonPath("$[1].category").value(secondProduct.getCategory()))
+                .andExpect(jsonPath("$[1].price").value(secondProduct.getPrice()))
+                .andExpect(jsonPath("$[1].quantity").value(secondProduct.getQuantity()));
+
+    }
 
     @Test
     public void getProductSuccessTest() throws Exception
@@ -74,6 +110,7 @@ public class ProductControllerTest {
         Product product = new Product();
         product.setDescription("Product description");
         product.setName("Apple");
+        product.setCategory("Fruit");
         product.setPrice(new BigDecimal(0.69));
         product.setQuantity(100);
 
@@ -84,6 +121,7 @@ public class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description").value(product.getDescription()))
                 .andExpect(jsonPath("$.name").value(product.getName()))
+                .andExpect(jsonPath("$.category").value(product.getCategory()))
                 .andExpect(jsonPath("$.price").value(product.getPrice()))
                 .andExpect(jsonPath("$.quantity").value(product.getQuantity()));
 

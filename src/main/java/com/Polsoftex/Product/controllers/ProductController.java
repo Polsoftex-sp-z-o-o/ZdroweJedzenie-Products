@@ -19,17 +19,16 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    Iterable<Product> getAllProducts()
+    ResponseEntity<Iterable<Product>> getAllProducts()
     {
-        return productService.getAllProducts();
+        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
     @GetMapping("/products/ids")
-    Iterable<Product> GetSelectedProducts(@RequestParam List<UUID> ids)
+    ResponseEntity<Iterable<Product>> GetSelectedProducts(@RequestParam List<UUID> ids)
     {
-        return productService.getSelectedProducts(ids);
+        return new ResponseEntity<>(productService.getSelectedProducts(ids), HttpStatus.OK);
     }
-
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Object> getProduct(@PathVariable UUID id)

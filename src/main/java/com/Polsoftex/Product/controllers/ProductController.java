@@ -25,7 +25,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/ids")
-    public Iterable<Product> GetSelectedProducts(@RequestParam List<UUID> ids)
+    Iterable<Product> GetSelectedProducts(@RequestParam List<UUID> ids)
     {
         return productService.getSelectedProducts(ids);
     }

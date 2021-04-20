@@ -22,6 +22,9 @@ public class Product {
     private String description;
 
     @Column
+    private String category;
+
+    @Column
     private Integer quantity;
 
     @Column
@@ -35,6 +38,9 @@ public class Product {
 
     public String getDescription(){ return description; }
     public void setDescription(String description){ this.description = description; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
     public Integer getQuantity(){ return quantity; }
     public void setQuantity(Integer quantity){ this.quantity = quantity; }

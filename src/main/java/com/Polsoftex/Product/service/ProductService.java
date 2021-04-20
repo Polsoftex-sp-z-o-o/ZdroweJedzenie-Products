@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public interface ProductService {
     List<Product> getAllProducts();
+    List<Product> getSelectedProducts(List<UUID> ids);
     Optional<Product> getProduct(UUID id);
     Boolean createProduct(ProductDto productDto);
     Boolean modifyProduct(ProductDto productDto, UUID id);

@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
-
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,17 +24,24 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/products/ids")
+    public Iterable<Product> GetSelectedProducts(@RequestParam List<UUID> ids)
+    {
+        return productService.getSelectedProducts(ids);
+    }
+
+
     @GetMapping("/products/{id}")
     public ResponseEntity<Object> getProduct(@PathVariable UUID id)
     {
         Optional<Product> product = productService.getProduct(id);
 
-        if(!product.isPresent())
+        if(product.isPresent())
         {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(product.get(), HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(product.get(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 

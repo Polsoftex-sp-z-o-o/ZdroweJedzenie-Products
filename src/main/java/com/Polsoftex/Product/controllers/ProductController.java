@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.UUID;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,27 +19,33 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    Iterable<Product> getAllProducts()
+    ResponseEntity<Iterable<Product>> getAllProducts()
     {
-        return productService.getAllProducts();
+        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/ids")
+    ResponseEntity<Iterable<Product>> GetSelectedProducts(@RequestParam List<UUID> ids)
+    {
+        return new ResponseEntity<>(productService.getSelectedProducts(ids), HttpStatus.OK);
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Object> getProduct(@PathVariable long id)
+    public ResponseEntity<Object> getProduct(@PathVariable UUID id)
     {
         Optional<Product> product = productService.getProduct(id);
 
-        if(!product.isPresent())
+        if(product.isPresent())
         {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(product.get(), HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(product.get(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<String> modifyProduct(@RequestBody ProductDto productDto, @PathVariable long id)
+    public ResponseEntity<String> modifyProduct(@RequestBody ProductDto productDto, @PathVariable UUID id)
     {
         if(productService.modifyProduct(productDto, id))
         {
@@ -59,7 +66,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable long id)
+    public ResponseEntity<String> deleteProduct(@PathVariable UUID id)
     {
         if(productService.deleteProduct(id))
         {

@@ -68,7 +68,7 @@ public class ProductControllerTest {
 
     }
 
-    @Test
+    /*@Test
     public void getSelectedProductsTest() throws Exception
     {
         Product firstProduct = new Product();
@@ -102,7 +102,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$[1].price").value(secondProduct.getPrice()))
                 .andExpect(jsonPath("$[1].quantity").value(secondProduct.getQuantity()));
 
-    }
+    }*/
 
     @Test
     public void getProductSuccessTest() throws Exception

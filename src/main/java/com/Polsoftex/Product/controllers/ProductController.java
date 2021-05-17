@@ -43,6 +43,12 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/products/getAllCategories")
+    public ResponseEntity<Object> GetAllCategories()
+    {
+        return new ResponseEntity<>(productService.getAllCategories(), HttpStatus.OK);
+    }
+
 
     @PutMapping("/products/{id}")
     public ResponseEntity<String> modifyProduct(@RequestBody ProductDto productDto, @PathVariable UUID id)

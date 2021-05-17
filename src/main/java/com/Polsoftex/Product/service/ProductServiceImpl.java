@@ -46,6 +46,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<String> getAllCategories()
+    {
+        return productRepository.getAllCategories();
+    }
+
+
+    @Override
     public Boolean createProduct(ProductDto productDto)
     {
         try {

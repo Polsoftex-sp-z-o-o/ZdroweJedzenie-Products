@@ -11,6 +11,7 @@ public interface ProductService {
     List<Product> getAllProducts();
     List<Product> getSelectedProducts(List<UUID> ids);
     Optional<Product> getProduct(UUID id);
+    List<String> getAllCategories();
     Boolean createProduct(ProductDto productDto);
     Boolean modifyProduct(ProductDto productDto, UUID id);
     Boolean deleteProduct(UUID id);

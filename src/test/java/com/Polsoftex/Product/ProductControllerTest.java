@@ -22,10 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.List;
+import java.util.*;
 
 @WebMvcTest(ProductController.class)
 public class ProductControllerTest {
@@ -136,6 +133,22 @@ public class ProductControllerTest {
         mockMvc.perform(get("/products/123e4567-e89b-42d3-a456-556642440000")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    public void getProductCategoriesTest() throws Exception
+    {
+        List<String> expectedCategoryList = new ArrayList<>(Arrays.asList("Wypieki", "Warzywa", "Owoce"));
+
+        when(productService.getAllCategories()).thenReturn(expectedCategoryList);
+
+        mockMvc.perform(get("/products/getAllCategories")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0]").value(expectedCategoryList.get(0)))
+                .andExpect(jsonPath("$[1]").value(expectedCategoryList.get(1)))
+                .andExpect(jsonPath("$[2]").value(expectedCategoryList.get(2)));
 
     }
 

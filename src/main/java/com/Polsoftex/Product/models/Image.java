@@ -13,13 +13,14 @@ public class Image {
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
 
+    @Lob
     @Column
-    private Blob image;
+    private byte[] image;
 
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
 
-    public Blob getImage() { return image; }
-    public void  setImage(Blob image) { this.image = image; }
+    public byte[] getImage() { return image; }
+    public void  setImage(byte[] image) { this.image = image; }
 
 }

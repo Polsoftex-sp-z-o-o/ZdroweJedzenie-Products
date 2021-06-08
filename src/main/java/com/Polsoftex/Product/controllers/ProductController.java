@@ -1,6 +1,7 @@
 package com.Polsoftex.Product.controllers;
 
 
+import com.Polsoftex.Product.models.Image;
 import com.Polsoftex.Product.models.Product;
 import com.Polsoftex.Product.models.dto.ImageDto;
 import com.Polsoftex.Product.models.dto.ProductDto;
@@ -90,10 +91,14 @@ public class ProductController {
     @GetMapping("/products/image/{id}")
     public ResponseEntity<Object> getImage(@PathVariable UUID id)
     {
-        return new ResponseEntity<>(imageService.getImage(id), HttpStatus.OK);
+        Optional<Image> imageOptional = imageService.getImage(id);
+        if (imageOptional.isPresent())
+            return new ResponseEntity<>(imageService.getImage(id), HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/products")
+    @PostMapping("/products/image")
     public ResponseEntity<String> setImage(@RequestBody ImageDto imageDto)
     {
         if(imageService.setImage(imageDto))

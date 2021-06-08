@@ -1,8 +1,10 @@
 package com.Polsoftex.Product;
 
 import com.Polsoftex.Product.controllers.ProductController;
+import com.Polsoftex.Product.models.Image;
 import com.Polsoftex.Product.models.Product;
 import com.Polsoftex.Product.models.dto.ProductDto;
+import com.Polsoftex.Product.service.ImageService;
 import com.Polsoftex.Product.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,9 @@ public class ProductControllerTest {
 
     @MockBean
     private ProductService productService;
+
+    @MockBean
+    private ImageService imageService;
 
     @Test
     public void getAllProductsTest() throws Exception
@@ -230,7 +235,5 @@ public class ProductControllerTest {
 
 
     }
-
-
 
 }

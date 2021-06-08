@@ -2,7 +2,9 @@ package com.Polsoftex.Product.controllers;
 
 
 import com.Polsoftex.Product.models.Product;
+import com.Polsoftex.Product.models.dto.ImageDto;
 import com.Polsoftex.Product.models.dto.ProductDto;
+import com.Polsoftex.Product.service.ImageService;
 import com.Polsoftex.Product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ImageService imageService;
 
     @GetMapping("/products")
     ResponseEntity<Iterable<Product>> getAllProducts()
@@ -80,5 +85,22 @@ public class ProductController {
         }
 
         return new ResponseEntity<>("Product deletion failed", HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/products/image/{id}")
+    public ResponseEntity<Object> getImage(@PathVariable UUID id)
+    {
+        return new ResponseEntity<>(imageService.getImage(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/products")
+    public ResponseEntity<String> setImage(@RequestBody ImageDto imageDto)
+    {
+        if(imageService.setImage(imageDto))
+        {
+            return  new ResponseEntity<>("Successfully set image", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("Image set failed", HttpStatus.NOT_FOUND);
     }
 }

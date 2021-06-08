@@ -5,9 +5,11 @@ import com.Polsoftex.Product.models.dto.ImageDto;
 import com.Polsoftex.Product.repositiories.ImageRepository;
 import com.Polsoftex.Product.repositiories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.sql.Blob;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,7 +46,22 @@ public class ImageServiceImpl implements ImageService {
         }
 
         image.setImage(imageDto.getImage());
+
+        try
+        {
+            imageRepository.save(image);
+        }
+        catch (DataIntegrityViolationException exception)
+        {
+            return  false;
+        }
         return true;
+    }
+
+    @Override
+    public List<Image> getAll()
+    {
+        return imageRepository.findAll();
     }
 
 }

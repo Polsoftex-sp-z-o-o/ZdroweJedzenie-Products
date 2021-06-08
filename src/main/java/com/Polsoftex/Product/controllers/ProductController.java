@@ -108,4 +108,10 @@ public class ProductController {
 
         return new ResponseEntity<>("Image set failed", HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/products/image")
+    public ResponseEntity<Object> getAllImages()
+    {
+        return new ResponseEntity<>(imageService.getAll(), HttpStatus.OK);
+    }
 }

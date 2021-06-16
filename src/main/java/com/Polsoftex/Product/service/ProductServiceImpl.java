@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
             product.setDescription(productDto.getDescription());
             product.setCategory((productDto.getCategory()));
             product.setName(productDto.getName());
-            product.setPrice(product.getPrice());
+            product.setPrice(productDto.getPrice());
             product.setQuantity(productDto.getQuantity());
 
             productRepository.save(product);
@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(productDto.getDescription());
         product.setCategory((productDto.getCategory()));
         product.setName(productDto.getName());
-        product.setPrice(product.getPrice());
+        product.setPrice(productDto.getPrice());
         product.setQuantity(productDto.getQuantity());
 
         try

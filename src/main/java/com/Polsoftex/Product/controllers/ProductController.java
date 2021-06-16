@@ -21,9 +21,6 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private ImageService imageService;
-
     @GetMapping("/products")
     ResponseEntity<Iterable<Product>> getAllProducts()
     {
@@ -86,32 +83,5 @@ public class ProductController {
         }
 
         return new ResponseEntity<>("Product deletion failed", HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/products/image/{id}")
-    public ResponseEntity<Object> getImage(@PathVariable UUID id)
-    {
-        Optional<Image> imageOptional = imageService.getImage(id);
-        if (imageOptional.isPresent())
-            return new ResponseEntity<>(imageService.getImage(id), HttpStatus.OK);
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PostMapping("/products/image")
-    public ResponseEntity<String> setImage(@RequestBody ImageDto imageDto)
-    {
-        if(imageService.setImage(imageDto))
-        {
-            return  new ResponseEntity<>("Successfully set image", HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("Image set failed", HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/products/image")
-    public ResponseEntity<Object> getAllImages()
-    {
-        return new ResponseEntity<>(imageService.getAll(), HttpStatus.OK);
     }
 }
